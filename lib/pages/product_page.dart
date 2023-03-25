@@ -11,6 +11,13 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> refreshProducts(BuildContext context) {
+      return Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).loadProducts();
+    }
+
     final ProductList products = Provider.of(context);
 
     return Scaffold(
@@ -25,15 +32,18 @@ class ProductPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: products.itemsCount,
-          itemBuilder: (ctx, i) => Column(
-            children: [
-              ProductItem(products.items[i]),
-              const Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () => refreshProducts(context),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: products.itemsCount,
+            itemBuilder: (ctx, i) => Column(
+              children: [
+                ProductItem(products.items[i]),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       ),
