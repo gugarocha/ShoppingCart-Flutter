@@ -13,6 +13,7 @@ import 'pages/product_detail_page.dart';
 import 'pages/cart_page.dart';
 import 'pages/orders_page.dart';
 import 'utils/app_routes.dart';
+import 'utils/custom_route.dart';
 
 void main() async {
   await dotenv.load();
@@ -26,6 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData(
       fontFamily: 'Lato',
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: CustomPageTransitionsBuilder(),
+        },
+      ),
     );
 
     return MultiProvider(
